@@ -4,10 +4,11 @@ import { AppService } from './app.service';
 import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { PetsModule } from './pets/pets.module';
+import { PrismaService } from './core/orm/prisma.service';
 
 @Module({
-  imports: [UsersModule, PetsModule],
+  imports: [UsersModule, PetsModule, PrismaService],
   controllers: [AppController],
-  providers: [AppService, UsersService],
+  providers: [AppService, UsersService, PrismaService],
 })
 export class AppModule {}
