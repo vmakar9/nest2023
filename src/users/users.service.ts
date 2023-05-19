@@ -3,11 +3,15 @@ import { CreateUsersDto } from './dto/users.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { PrismaService } from '../core/orm/prisma.service';
 import { User } from '@prisma/client';
+import { PetsService } from '../pets/pets.service';
 
 @ApiTags('Users')
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly petService: PetsService,
+  ) {}
 
   async createUser(userData: CreateUsersDto): Promise<User> {
     return this.prismaService.user.create({
@@ -17,6 +21,7 @@ export class UsersService {
         email: userData.email,
         status: userData.status,
         age: userData.age,
+        avatar: userData.avatar,
       },
     });
   }
@@ -33,14 +38,15 @@ export class UsersService {
   async getUserById(userId: string) {
     return this.prismaService.user.findFirst({
       where: { id: Number(userId) },
-      // select: {
-      //   name: true,
-      //   city: true,
-      //   age: true,
-      // },
-      include: {
-        pets: true,
+      select: {
+        id: true,
+        name: true,
+        city: true,
+        age: true,
       },
+      // include: {
+      //   pets: true,
+      // },
     });
   }
 

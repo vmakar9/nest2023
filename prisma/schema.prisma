@@ -16,15 +16,17 @@ model User {
   name   String?
   city   String?
   age    Int?
+  avatar String?
   status Boolean? @default(false)
-  createdAt Date? @default(now())
   pets   Pets[]
 }
 
 model Pets {
   id      Int      @id @default(autoincrement())
   name    String
-  type    String
+  type    String?
+  image String?
+  logo  String?
   status  Boolean? @default(false)
   owner   User?    @relation(fields: [ownerId], references: [id])
   ownerId Int?
